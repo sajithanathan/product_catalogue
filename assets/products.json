@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "name": "Watermelon Splash",
+    "price": 299,
+    "category": "Summer",
+    "image": "assets/images/watermelon.png",
+    "description": "Welcome to a world of freshness and natural sweetness. Discover the refreshing taste of juicy watermelon. Made with care to bring you the best quality and flavour. Enjoy every bite filled with freshness and goodness. A perfect choice to keep you hydrated and energized. Experience the natural delight of summer's favourite fruit. Fresh, healthy, and delicious in every slice. Bringing the goodness of watermelon closer to you. Taste the freshness, feel the difference. Let every moment be refreshing with watermelon."
+  },
+  {
+    "id": 2,
+    "name": "Orange Delight",
+    "price": 350,
+    "category": "Citrus",
+    "image": "assets/images/orange.png",
+    "description": "Experience the refreshing taste of fresh oranges and natural citrus goodness. Packed with juicy flavour and a burst of vitamin C in every sip. Carefully prepared to bring you a perfect balance of sweetness and freshness. Enjoy a delicious drink that keeps you refreshed and energized throughout the day. A healthy choice made with the goodness of nature's finest oranges. Feel the bright and refreshing flavour of freshly squeezed oranges. Smooth, tasty, and full of natural freshness in every drop. Perfect for cooling down and enjoying a refreshing moment. Taste the citrus delight and feel the freshness. Let every sip bring you pure orange happiness."
+  },
+  {
+    "id": 3,
+    "name": "Grape Fusion",
+    "price": 320,
+    "category": "Berry",
+    "image": "assets/images/grapes.png",
+    "description": "Enjoy the rich and refreshing taste of freshly picked grapes. Blended with care to bring you a perfect balance of sweetness and fruity flavour. Packed with natural goodness and a refreshing grape aroma. A delicious drink that helps you stay refreshed and energized. Experience the juicy taste of grapes in every sip. Made with fresh ingredients to deliver a smooth and delightful flavour. A perfect choice for grape lovers who enjoy natural freshness. Feel the burst of fruity goodness with every refreshing sip. Healthy, tasty, and full of natural grape flavour. Enjoy the ultimate grape experience with Grape Fusion."
+  },
+  {
+    "id": 4,
+    "name": "Apple Fresh",
+    "price": 280,
+    "category": "Classic",
+    "image": "assets/images/apple.png",
+    "description": "Enjoy the naturally sweet and refreshing taste of fresh apples. Made with carefully selected apples to bring you a smooth and delicious flavour. Packed with natural nutrients and a refreshing fruity aroma. A healthy drink choice to keep you energized throughout the day. Experience the crisp and juicy goodness of apples in every sip. Prepared with freshness and care for a delightful taste. Perfect for those who love a classic and refreshing fruit drink. Enjoy the pure taste of nature with every refreshing drop. Healthy, delicious, and full of natural apple goodness. Let Apple Fresh bring a refreshing moment to your day."
+  },
+  {
+    "id": 5,
+    "name": "Green Glow",
+    "price": 390,
+    "category": "Green",
+    "image": "assets/images/greenApple.png",
+    "description": "Refresh yourself with the natural goodness of fresh green apples. A healthy and delicious blend created with carefully selected ingredients. Packed with essential nutrients and a refreshing fruity taste. Enjoy a smooth flavour that brings freshness to every sip. Perfect for boosting your energy and keeping you hydrated. Made with natural ingredients for a wholesome experience. A refreshing green drink that supports a healthy lifestyle. Experience the perfect balance of sweetness and freshness. Light, tasty, and full of natural goodness. Let Green Glow brighten your day with every refreshing sip."
+  },
+  {
+    "id": 6,
+    "name": "Pineapple Paradise",
+    "price": 340,
+    "category": "Tropical",
+    "image": "assets/images/pineapple.png",
+    "description": "Escape to a tropical paradise with the refreshing taste of fresh pineapple. Blended with natural ingredients to create a sweet and refreshing flavour. Enjoy the perfect balance of tropical sweetness and juicy freshness. Packed with fruity goodness to keep you refreshed and energized. A delicious drink inspired by the flavours of tropical fruits. Smooth, refreshing, and full of natural pineapple goodness. Perfect for those who love exotic and fruity flavours. Experience a tropical journey with every refreshing sip. Taste the sunshine with this delightful pineapple blend. Let Pineapple Paradise bring a refreshing tropical moment to your day."
+  },
+  {
+    "id": 7,
+    "name": "Mango Bliss",
+    "price": 360,
+    "category": "Tropical",
+    "image": "assets/images/mango.png",
+    "description": "Enjoy the rich and delicious taste of fresh ripe mangoes. Made with carefully selected mangoes to bring you a smooth and creamy flavour. Experience the natural sweetness and tropical goodness in every sip. Packed with refreshing fruity energy to brighten your day. A perfect blend of flavour, freshness, and natural mango goodness. Enjoy the taste of summer with this delightful mango drink. Smooth, sweet, and refreshing for every mango lover. Made to give you a tropical experience with every sip. Feel the juicy burst of mango freshness and happiness. Let Mango Bliss bring a sweet and refreshing moment to your day."
+  },
+  {
+    "id": 8,
+    "name": "Kiwi Detox",
+    "price": 360,
+    "category": "Detox",
+    "image": "assets/images/kiwi.png",
+    "description": "Refresh your body with the natural goodness of fresh kiwi fruits. A healthy and delicious blend packed with refreshing flavour and nutrients. Enjoy the perfect balance of sweet and tangy kiwi taste in every sip. Made with fresh ingredients to support a refreshing lifestyle. Packed with natural goodness to keep you energized throughout the day. Experience the smooth texture and vibrant flavour of fresh kiwi. A perfect choice for those who love healthy and refreshing drinks. Enjoy a revitalizing drink filled with fruity freshness. Light, delicious, and full of natural kiwi goodness. Let Kiwi Detox bring freshness and wellness to your day."
+  }
+]
