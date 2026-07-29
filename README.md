@@ -132,7 +132,7 @@ flutter build apk --release
 APK location:
 
 ```text
-The release APK is provided separately with the submission.
+build/app/outputs/flutter-apk/app-release.apk`
 ```
 
 
@@ -297,6 +297,21 @@ A demo video is provided separately as part of the submission package.
 
 ## Search & Filtering
 ![Search Filter](screenshots/search_result.png)
+
+## Product List (Dark Mode)
+![Product List Dark](screenshots/all_products_dark.png)
+
+## Product Details (Dark Mode)
+![Product Details Dark](screenshots/view_products_dark.png)
+
+## Favourite Selection (Dark Mode)
+![Favourite Selected Dark](screenshots/favourite_dark.png)
+
+## Category Selection
+![Category Selection](screenshots/category_selection.png)
+
+## Search - No Results
+![Search Empty](screenshots/search_empty.png)
 
 
 ---

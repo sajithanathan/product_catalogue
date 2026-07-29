@@ -1,5 +1,3 @@
-// lib/screens/favorites_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +9,14 @@ import 'product_details_screen.dart';
 import 'product_list_screen.dart';
 
 class FavoritesScreen extends StatefulWidget {
-  const FavoritesScreen({super.key});
+  final VoidCallback onThemeToggle;
+  final bool isDark;
+
+  const FavoritesScreen({
+    super.key,
+    required this.onThemeToggle,
+    required this.isDark,
+  });
 
   @override
   State<FavoritesScreen> createState() => _FavoritesScreenState();
@@ -48,23 +53,22 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   void _onItemTapped(int index) {
+    if (_currentIndex == index) return;
+
     setState(() {
       _currentIndex = index;
     });
 
     switch (index) {
       case 0:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Home tab selected')),
-        );
         break;
       case 1:
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation1, animation2) => ProductListScreen(
-              onThemeToggle: () {},
-              isDark: Theme.of(context).brightness == Brightness.dark,
+              onThemeToggle: widget.onThemeToggle,
+              isDark: widget.isDark,
             ),
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero,
@@ -96,7 +100,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -107,26 +110,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       color: colorScheme.onBackground,
                     ),
                   ),
-                  Row(
+                  Stack(
                     children: [
                       IconButton(
                         icon: Icon(
-                          isDark ? Icons.wb_sunny_rounded : Icons.nights_stay_rounded,
+                          Icons.shopping_bag_outlined,
                           color: colorScheme.onBackground,
                         ),
                         onPressed: () {},
-                      ),
-                      const SizedBox(width: 4),
-                      Stack(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.shopping_bag_outlined,
-                              color: colorScheme.onBackground,
-                            ),
-                            onPressed: () {},
-                          ),
-                        ],
                       ),
                     ],
                   ),
@@ -179,7 +170,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     // Show favorites list with pull-to-refresh
                     return RefreshIndicator(
                       onRefresh: _refreshFavorites,
-                      color: Colors.black,
+                      color: isDark ? Colors.white : Colors.black,
                       backgroundColor: colorScheme.surface,
                       child: ListView.builder(
                         itemCount: favoriteProducts.length,
@@ -412,24 +403,27 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            SizedBox(
-              height: 48,
-              width: 200,
-              child: MainButton(
-                text: "Start Shopping",
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) => ProductListScreen(
-                        onThemeToggle: () {},
-                        isDark: isDark,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: MainButton(
+                  text: "Start Shopping",
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) => ProductListScreen(
+                          onThemeToggle: widget.onThemeToggle,
+                          isDark: widget.isDark,
+                        ),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
                       ),
-                      transitionDuration: Duration.zero,
-                      reverseTransitionDuration: Duration.zero,
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ],

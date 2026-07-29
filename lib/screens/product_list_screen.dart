@@ -1,5 +1,3 @@
-// lib/screens/product_list_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -81,7 +79,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => const FavoritesScreen(),
+            pageBuilder: (context, animation1, animation2) => FavoritesScreen(
+              onThemeToggle: widget.onThemeToggle,
+              isDark: widget.isDark,
+            ),
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero,
           ),
@@ -99,109 +100,147 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<ProductProvider>(context);
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: context.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 10,
-        actions: [
-          IconButton(
-            icon: Icon(
-              widget.isDark ? Icons.light_mode : Icons.dark_mode,
-              color: context.textColor,
-            ),
-            onPressed: widget.onThemeToggle,
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 4,
-            ),
-            child: SearchBarWidget(
-              controller: _searchController,
-              onChanged: (query) => _handleSearch(provider, query),
-              onClear: () async {
-                _searchController.clear();
-                setState(() => _isActionLoading = true);
-                await Future.delayed(const Duration(milliseconds: 200));
-                provider.clearSearch();
-                if (mounted) setState(() => _isActionLoading = false);
-              },
-            ),
-          ),
-          if (provider.products.isNotEmpty && !provider.isLoading && !_isActionLoading)
-            SizedBox(
-              height: 55,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                ),
-                itemCount: categories.length,
-                itemBuilder: (context, index) {
-                  final category = categories[index];
-                  final selected = provider.selectedCategory == category;
-
-                  return Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: ChoiceChip(
-                      label: Text(category),
-                      selected: selected,
-                      showCheckmark: false,
-                      selectedColor: widget.isDark ? AppColors.textLight : AppColors.textPrimary,
-                      backgroundColor: context.cardBackgroundColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(
-                          color: selected ? Colors.transparent : Colors.grey.shade300,
-                          width: 1,
-                        ),
-                      ),
-                      labelStyle: theme.textTheme.bodyMedium?.copyWith(
-                        color: selected ? Colors.white : context.textColor,
-                        fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                      ),
-                      onSelected: (value) {
-                        _handleCategoryFilter(provider, category);
-                      },
+      backgroundColor: colorScheme.background,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Row with "Products" title and action icons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Products',
+                    style: textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.onBackground,
                     ),
-                  );
-                },
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          isDark ? Icons.wb_sunny_rounded : Icons.nights_stay_rounded,
+                          color: colorScheme.onBackground,
+                          size: 24,
+                        ),
+                        onPressed: widget.onThemeToggle,
+                      ),
+                      const SizedBox(width: 4),
+                      IconButton(
+                        icon: Icon(
+                          Icons.shopping_bag_outlined,
+                          color: colorScheme.onBackground,
+                          size: 24,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
-          Expanded(
-            child: _buildBody(provider, theme),
+              const SizedBox(height: 16),
+
+              // Search Bar
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: SearchBarWidget(
+                  controller: _searchController,
+                  onChanged: (query) => _handleSearch(provider, query),
+                  onClear: () async {
+                    _searchController.clear();
+                    setState(() => _isActionLoading = true);
+                    await Future.delayed(const Duration(milliseconds: 200));
+                    provider.clearSearch();
+                    if (mounted) setState(() => _isActionLoading = false);
+                  },
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Categories List
+              if (provider.products.isNotEmpty && !provider.isLoading && !_isActionLoading)
+                SizedBox(
+                  height: 55,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.zero,
+                    itemCount: categories.length,
+                    itemBuilder: (context, index) {
+                      final category = categories[index];
+                      final selected = provider.selectedCategory == category;
+
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: ChoiceChip(
+                          label: Text(category),
+                          selected: selected,
+                          showCheckmark: false,
+                          selectedColor: isDark ? Colors.white : AppColors.textPrimary,
+                          backgroundColor: colorScheme.surface,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(
+                              color: selected ? Colors.transparent : (isDark ? Colors.grey.shade700 : Colors.grey.shade300),
+                              width: 1,
+                            ),
+                          ),
+                          labelStyle: theme.textTheme.bodyMedium?.copyWith(
+                            color: selected 
+                              ? (isDark ? Colors.black : Colors.white) 
+                              : colorScheme.onSurface,
+                            fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                          ),
+                          onSelected: (value) {
+                            _handleCategoryFilter(provider, category);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              const SizedBox(height: 8),
+
+             
+              Expanded(
+                child: _buildBody(provider, theme, isDark),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       bottomNavigationBar: CustomBottomBar(
         currentIndex: _currentIndex,
         onTap: _handleBottomBarTap,
-        isDark: widget.isDark,
+        isDark: isDark,
       ),
     );
   }
 
-  Widget _buildBody(ProductProvider provider, ThemeData theme) {
+  Widget _buildBody(ProductProvider provider, ThemeData theme, bool isDark) {
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     if (provider.isLoading || _isActionLoading) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircularProgressIndicator(
-              color: widget.isDark ? AppColors.textLight : AppColors.textPrimary,
+              color: isDark ? AppColors.textLight : AppColors.textPrimary,
             ),
             const SizedBox(height: 16),
             Text(
               'Loading products...',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: context.textColor,
+                color: colorScheme.onSurface,
               ),
             ),
           ],
@@ -225,7 +264,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
               Text(
                 'Oops! Something went wrong',
                 style: theme.textTheme.headlineMedium?.copyWith(
-                  color: context.textColor,
+                  color: colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -234,7 +273,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 provider.errorMessage,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: widget.isDark ? Colors.white54 : AppColors.getGreyShade(600),
+                  color: isDark ? Colors.white54 : Colors.grey.shade600,
                   height: 1.5,
                 ),
               ),
@@ -242,8 +281,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ElevatedButton(
                 onPressed: provider.retry,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: widget.isDark ? AppColors.textLight : AppColors.textPrimary,
-                  foregroundColor: widget.isDark ? AppColors.textPrimary : AppColors.textLight,
+                  backgroundColor: isDark ? AppColors.textLight : AppColors.textPrimary,
+                  foregroundColor: isDark ? AppColors.textPrimary : AppColors.textLight,
                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -270,7 +309,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 height: 120,
                 width: 120,
                 decoration: BoxDecoration(
-                  color: widget.isDark ? AppColors.darkCardBackground : AppColors.lightGreen,
+                  color: isDark ? AppColors.darkCardBackground : AppColors.lightGreen,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
@@ -285,7 +324,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
               Text(
                 isSearching ? "No results found" : "No products available",
                 style: theme.textTheme.headlineMedium?.copyWith(
-                  color: context.textColor,
+                  color: colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -296,7 +335,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     : "No products are available at the moment. Please check back later.",
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: widget.isDark ? Colors.white54 : AppColors.getGreyShade(600),
+                  color: isDark ? Colors.white54 : Colors.grey.shade600,
                   height: 1.5,
                 ),
               ),
@@ -326,11 +365,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
         if (showBanner)
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+              padding: const EdgeInsets.only(bottom: 16),
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: widget.isDark ? AppColors.darkCardBackground : AppColors.imagePlaceholderLight,
+                  color: isDark 
+                    ? AppColors.darkCardBackground 
+                    : AppColors.imagePlaceholderLight,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -344,20 +385,26 @@ class _ProductListScreenState extends State<ProductListScreen> {
                             "Sweet, tropical, and naturally refreshing. Made from freshly picked pineapples for the perfect burst of flavor.",
                             style: theme.textTheme.bodyMedium?.copyWith(
                               height: 1.4,
-                              color: context.textColor,
+                              color: isDark ? Colors.white70 : colorScheme.onSurface,
                             ),
                           ),
                           const SizedBox(height: 12),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: widget.isDark ? AppColors.textLight : AppColors.textPrimary,
-                              foregroundColor: widget.isDark ? AppColors.textPrimary : AppColors.textLight,
+                              backgroundColor: isDark ? Colors.white : AppColors.textPrimary,
+                              foregroundColor: isDark ? Colors.black : Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             ),
                             onPressed: () {},
-                            child: const Text("Order Now"),
+                            child: const Text(
+                              "Order Now",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -373,7 +420,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         errorBuilder: (context, error, stack) {
                           return Icon(
                             Icons.image_not_supported,
-                            color: context.textColor.withOpacity(0.5),
+                            color: colorScheme.onSurface.withOpacity(0.5),
                           );
                         },
                       ),
@@ -384,10 +431,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
             ),
           ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
+          padding: const EdgeInsets.only(bottom: 8),
           sliver: SliverGrid(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
