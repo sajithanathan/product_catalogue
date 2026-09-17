@@ -1,6 +1,6 @@
 # Juice Catalogue
 
-A modern Flutter product catalogue application built for the **Associate Flutter Developer Practical Assessment**.
+A modern Flutter product catalogue application showcasing clean architecture, state management, and a polished UI/UX.
 
 The application displays a catalogue of fresh juices with search, category filtering, favourites, dark/light theme support, loading states, error handling, and persistent favourites.
 
