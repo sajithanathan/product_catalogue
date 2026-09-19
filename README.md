@@ -278,12 +278,6 @@ Users can retry when product loading fails.
 
 ---
 
-#  Demo
-
-A demo video is provided separately as part of the submission package.
-
----
-
 #  Screenshots
 
 ## Product List
